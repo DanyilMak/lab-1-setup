@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
   output: "export",
+  basePath: "/lab-1-setup",
+  assetPrefix: "/lab-1-setup/",
 };
 
 export default nextConfig;
