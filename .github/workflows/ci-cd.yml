@@ -26,12 +26,15 @@ jobs:
 
       - name: Install
         run: npm ci
+        working-directory: ./my-app
 
       - name: Lint
         run: npm run lint
+        working-directory: ./my-app
 
       - name: Test
         run: npm run test:ci
+        working-directory: ./my-app
 
   build-and-publish:
     needs: quality-checks
