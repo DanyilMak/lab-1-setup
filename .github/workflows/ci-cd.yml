@@ -62,4 +62,4 @@ jobs:
         with:
           context: ./my-app
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/danyilmak/lab-1-setup:latest
