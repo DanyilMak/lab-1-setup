@@ -14,27 +14,29 @@ jobs:
   quality-checks:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./my-app
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: my-app/package-lock.json
 
-      - name: Install
+      - name: Install dependencies
         run: npm ci
-        working-directory: ./my-app
 
-      - name: Lint
+      - name: Run Lint
         run: npm run lint
-        working-directory: ./my-app
 
-      - name: Test
+      - name: Run Tests
         run: npm run test:ci
-        working-directory: ./my-app
 
   build-and-publish:
     needs: quality-checks
@@ -42,10 +44,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Login to GHCR
@@ -55,9 +57,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push
+      - name: Build and Push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./my-app
           push: true
           tags: ghcr.io/${{ github.repository }}:latest
