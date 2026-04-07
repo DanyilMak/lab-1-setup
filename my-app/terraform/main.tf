@@ -2,6 +2,8 @@ resource "vercel_project" "lab_deployment" {
   name      = "lab6-terraform"
   framework = "nextjs"
 
+  root_directory = "my-app"
+
   git_repository = {
     type = "github"
     repo = "DanyilMak/lab-1-setup"
